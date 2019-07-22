@@ -1,0 +1,26 @@
+<annotation>
+	<folder>images</folder>
+	<filename>40.jpg</filename>
+	<path>/home/stas/ml/window_replacer_new/data/images/40.jpg</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>800</width>
+		<height>600</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>window</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>120</xmin>
+			<ymin>65</ymin>
+			<xmax>627</xmax>
+			<ymax>481</ymax>
+		</bndbox>
+	</object>
+</annotation>
