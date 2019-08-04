@@ -121,20 +121,20 @@ def get_window_coords():
     print(image_path)
     image = Image.open(image_path)
     image_np = load_image_into_numpy_array(image)
-    # Expand dimensions since the model expects images to have shape: [1, None, None, 3]
-    image_np_expanded = np.expand_dims(image_np, axis=0)
     # Actual detection.
     output_dict = run_inference_for_single_image(image_np, detection_graph)
     print(output_dict['detection_scores'][0],
           output_dict['detection_boxes'][0])
 
     img_shape = image_np.shape
-    coords = output_dict['detection_boxes'][0]
-    coords[0] = round(coords[0] * img_shape[0])
-    coords[1] = round(coords[1] * img_shape[1])
-    coords[2] = round(coords[2] * img_shape[0])
-    coords[3] = round(coords[3] * img_shape[1])
-    return str(coords)
+    coord_list = []
+    for i, score in enumerate(output_dict['detection_scores']):
+        if score >= 0.8:
+            coords = (round(output_dict['detection_boxes'][i][0] * img_shape[0]), round(output_dict['detection_boxes'][i][1] * img_shape[1]),
+                      round(output_dict['detection_boxes'][i][2] * img_shape[0]), round(output_dict['detection_boxes'][i][3] * img_shape[1]))
+            coord_list.append(coords)
+
+    return coord_list
 
     #     image_np[int(coords[0]):int(coords[2]),int(coords[1]):int(coords[3])] = window_img.reshape(147,157,3)
 
