@@ -58,10 +58,6 @@ def load_image_into_numpy_array(image):
         (im_height, im_width, 3)).astype(np.uint8)
 
 
-# Size, in inches, of the output images.
-IMAGE_SIZE = (12, 8)
-
-
 def run_inference_for_single_image(image, graph):
     with graph.as_default():
         with tf.Session() as sess:
@@ -118,13 +114,10 @@ def run_inference_for_single_image(image, graph):
 
 def get_window_coords():
     image_path = '/home/stas/ml/window_replacer_new/data/images/test1/9.jpg'
-    print(image_path)
     image = Image.open(image_path)
     image_np = load_image_into_numpy_array(image)
     # Actual detection.
     output_dict = run_inference_for_single_image(image_np, detection_graph)
-    print(output_dict['detection_scores'][0],
-          output_dict['detection_boxes'][0])
 
     img_shape = image_np.shape
     coord_list = []
@@ -135,7 +128,3 @@ def get_window_coords():
             coord_list.append(coords)
 
     return coord_list
-
-    #     image_np[int(coords[0]):int(coords[2]),int(coords[1]):int(coords[3])] = window_img.reshape(147,157,3)
-
-    #     io.imshow(image_np)
