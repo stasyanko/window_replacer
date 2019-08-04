@@ -1,8 +1,8 @@
 var canvas = document.getElementById("canvas");
 image1 = new MarvinImage();
-image1.load("https://i.imgur.com/ChdMiH7.jpg", imageLoaded);
+image1.load($('#img_src').val(), imageLoaded);
 image3 = new MarvinImage();
-image3.load("https://i.imgur.com/AMsXIc8.png", imageLoaded);
+image3.load($('#window_src').val(), imageLoaded);
 
 var loaded = 0;
 
