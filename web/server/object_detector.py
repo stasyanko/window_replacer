@@ -113,7 +113,7 @@ def run_inference_for_single_image(image, graph):
 
 
 def get_window_coords():
-    image_path = '/home/stas/ml/window_replacer_new/data/images/test1/9.jpg'
+    image_path = '/home/stas/ml/window_replacer_new/data/images/test1/2.jpg'
     image = Image.open(image_path)
     image_np = load_image_into_numpy_array(image)
     output_dict = run_inference_for_single_image(image_np, detection_graph)
@@ -121,7 +121,7 @@ def get_window_coords():
     img_shape = image_np.shape
     coord_list = []
     for i, score in enumerate(output_dict['detection_scores']):
-        if score >= 0.8:
+        if score >= 0.6:
             coords = (round(output_dict['detection_boxes'][i][0] * img_shape[0]), round(output_dict['detection_boxes'][i][1] * img_shape[1]),
                       round(output_dict['detection_boxes'][i][2] * img_shape[0]), round(output_dict['detection_boxes'][i][3] * img_shape[1]))
             coord_list.append(coords)

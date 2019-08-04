@@ -20,10 +20,11 @@
 </head>
 
 <body>
-    <input id="img_src" type="hidden" value={{ url_for('static', filename='images/9.jpg') }}>
+    <input id="img_src" type="hidden" value={{ url_for('static', filename='images/2.jpg') }}>
     <input id="window_src" type="hidden" value={{ url_for('static', filename='images/window.png') }}>
+    <input id="coords" type="hidden" value="{{ coords }}">
 
-    <canvas id="canvas" width="450" height="297"></canvas>
+    <canvas id="canvas" width="800" height="800"></canvas>
 
     <div>{{ coords }}</div>
 
