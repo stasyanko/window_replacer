@@ -20,13 +20,13 @@
 </head>
 
 <body>
-    <input id="img_src" type="hidden" value={{ url_for('static', filename='images/2.jpg') }}>
-    <input id="window_src" type="hidden" value={{ url_for('static', filename='images/window.png') }}>
+    <input id="img_src" type="hidden" value={{ url_for('static', filename='images/9.jpg') }}>
+    <input id="window_src" type="hidden" value={{ url_for('static', filename='images/window1.png') }}>
+    <input id="glass_src" type="hidden" value={{ url_for('static', filename='images/glass.png') }}>
+
     <input id="coords" type="hidden" value="{{ coords }}">
 
     <canvas id="canvas1" width="800" height="800"></canvas>
-
-    <!-- <img id="src1" src="{{ url_for('static', filename='images/window.png') }}" alt=""> -->
 
     <div>{{ coords }}</div>
 

@@ -113,7 +113,7 @@ def run_inference_for_single_image(image, graph):
 
 
 def get_window_coords():
-    image_path = '/home/stas/ml/window_replacer_new/data/images/test1/2.jpg'
+    image_path = '/home/stas/ml/window_replacer_new/data/images/test1/9.jpg'
     image = Image.open(image_path)
     image_np = load_image_into_numpy_array(image)
     output_dict = run_inference_for_single_image(image_np, detection_graph)
