@@ -24,7 +24,9 @@
     <input id="window_src" type="hidden" value={{ url_for('static', filename='images/window.png') }}>
     <input id="coords" type="hidden" value="{{ coords }}">
 
-    <canvas id="canvas" width="800" height="800"></canvas>
+    <canvas id="canvas1" width="800" height="800"></canvas>
+
+    <!-- <img id="src1" src="{{ url_for('static', filename='images/window.png') }}" alt=""> -->
 
     <div>{{ coords }}</div>
 
@@ -38,7 +40,6 @@
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
 
-    <script src="https://www.marvinj.org/releases/marvinj-0.8.js"></script>
     <script src="{{ url_for('static', filename='main.js') }}"></script>
 </body>
 
