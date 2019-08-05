@@ -13,8 +13,5 @@ imageObj1.onload = function () {
             const coodArr = coords[i];
             ctx.drawImage(imageObj2, coodArr[1], coodArr[0], coodArr[3] - coodArr[1], coodArr[2] - coodArr[0]);
         }
-
-        var img = c.toDataURL("image/png");
-        document.write('<img src="' + img + '" width="800" height="800"/>');
     }
 };
