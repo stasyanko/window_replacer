@@ -18,6 +18,9 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 def upload_file():
     coords = ""
     filename = ""
+    windows = os.listdir(UPLOAD_FOLDER + "/windows")
+    slider_btn_range = range(0, round(len(windows) / 4))
+
     if request.method == 'POST':
         if 'file' not in request.files:
             flash('No file part')
@@ -33,7 +36,7 @@ def upload_file():
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             coords = json.dumps(get_window_coords(filename))
 
-    return render_template('index.html', coords=coords, filename=filename)
+    return render_template('index.html', windows=windows, slider_btn_range=slider_btn_range, coords=coords, filename=filename)
 
 
 def allowed_file(filename):

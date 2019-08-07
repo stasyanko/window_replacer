@@ -1,6 +1,6 @@
 $(document).ready(function () {
     $('#blogCarousel').carousel({
-        interval: 5000
+        interval: 3600000
     });
 
     var c = document.getElementById("canvas1");

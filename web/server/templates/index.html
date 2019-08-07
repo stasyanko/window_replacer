@@ -68,35 +68,24 @@
                 <div id="blogCarousel" class="carousel slide" data-ride="carousel">
 
                     <ol class="carousel-indicators">
-                        <li data-target="#blogCarousel" data-slide-to="0" class="active"></li>
-                        <li data-target="#blogCarousel" data-slide-to="1"></li>
+                        {% for index in slider_btn_range %}
+                        <li data-target="#blogCarousel" data-slide-to="{{loop.index - 1}}" class="active"></li>
+                        {% endfor %}
                     </ol>
 
                     <!-- Carousel items -->
-                    <div class="carousel-inner">
+                    <div class=" carousel-inner">
 
                         <div class="carousel-item active">
                             <div class="row">
+                                {% for window in windows %}
                                 <div class="col-md-3">
                                     <a href="#">
-                                        <img src="http://placehold.it/250x250" alt="Image" style="max-width:100%;">
+                                        <img src="{{ url_for('static', filename='images/windows/' + window) }}"
+                                            alt="Image" style="max-width:100%;">
                                     </a>
                                 </div>
-                                <div class="col-md-3">
-                                    <a href="#">
-                                        <img src="http://placehold.it/250x250" alt="Image" style="max-width:100%;">
-                                    </a>
-                                </div>
-                                <div class="col-md-3">
-                                    <a href="#">
-                                        <img src="http://placehold.it/250x250" alt="Image" style="max-width:100%;">
-                                    </a>
-                                </div>
-                                <div class="col-md-3">
-                                    <a href="#">
-                                        <img src="http://placehold.it/250x250" alt="Image" style="max-width:100%;">
-                                    </a>
-                                </div>
+                                {% if loop.index % 4 == 0 %}
                             </div>
                             <!--.row-->
                         </div>
@@ -104,26 +93,9 @@
 
                         <div class="carousel-item">
                             <div class="row">
-                                <div class="col-md-3">
-                                    <a href="#">
-                                        <img src="http://placehold.it/250x250" alt="Image" style="max-width:100%;">
-                                    </a>
-                                </div>
-                                <div class="col-md-3">
-                                    <a href="#">
-                                        <img src="http://placehold.it/250x250" alt="Image" style="max-width:100%;">
-                                    </a>
-                                </div>
-                                <div class="col-md-3">
-                                    <a href="#">
-                                        <img src="http://placehold.it/250x250" alt="Image" style="max-width:100%;">
-                                    </a>
-                                </div>
-                                <div class="col-md-3">
-                                    <a href="#">
-                                        <img src="http://placehold.it/250x250" alt="Image" style="max-width:100%;">
-                                    </a>
-                                </div>
+                                {% endif %}
+                                {% endfor %}
+
                             </div>
                             <!--.row-->
                         </div>
