@@ -80,7 +80,7 @@
                             <div class="row">
                                 {% for window in windows %}
                                 <div class="col-md-3">
-                                    <a href="#">
+                                    <a href="#" class="window-btn" id="{{window}}" data-id="{{window}}">
                                         <img src="{{ url_for('static', filename='images/windows/' + window) }}"
                                             alt="Image" style="max-width:100%;">
                                     </a>
