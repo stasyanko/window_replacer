@@ -17,26 +17,128 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
         integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
+    <style>
+        .blog .carousel-indicators {
+            left: 0;
+            top: auto;
+            bottom: -40px;
+
+        }
+
+        /* The colour of the indicators */
+        .blog .carousel-indicators li {
+            background: #a3a3a3;
+            border-radius: 50%;
+            width: 8px;
+            height: 8px;
+        }
+
+        .blog .carousel-indicators .active {
+            background: #707070;
+        }
+    </style>
 </head>
 
 <body>
-
-    <form method="POST" action="/" enctype="multipart/form-data">
-        <input type=file name=file>
-        <input type=submit value=Upload>
-    </form>
-
-    <br>
-
     <input id="img_src" type="hidden" value={{ url_for('static', filename='images/' + filename) }}>
-    <input id="window_src" type="hidden" value={{ url_for('static', filename='images/windows/window_PNG17705.png') }}>
+    <input id="window_src" type="hidden" value={{ url_for('static', filename='images/windows/window_PNG17681.png') }}>
     <input id="glass_src" type="hidden" value={{ url_for('static', filename='images/glass.png') }}>
 
     <input id="coords" type="hidden" value="{{ coords }}">
 
-    <canvas id="canvas1" width="800" height="800"></canvas>
+    <div class="container">
+        <br>
+        <div class="row">
+            <div class="col-md-12">
+                <form method="POST" action="/" enctype="multipart/form-data">
+                    <input type=file name=file>
+                    <input type=submit value=Upload>
+                </form>
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-md-12 center">
+                <canvas id="canvas1" width="800" height="800"></canvas>
+            </div>
+        </div>
+        <br>
+        <div class="row blog">
+            <div class="col-md-12">
+                <div id="blogCarousel" class="carousel slide" data-ride="carousel">
 
-    <div>{{ coords }}</div>
+                    <ol class="carousel-indicators">
+                        <li data-target="#blogCarousel" data-slide-to="0" class="active"></li>
+                        <li data-target="#blogCarousel" data-slide-to="1"></li>
+                    </ol>
+
+                    <!-- Carousel items -->
+                    <div class="carousel-inner">
+
+                        <div class="carousel-item active">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <a href="#">
+                                        <img src="http://placehold.it/250x250" alt="Image" style="max-width:100%;">
+                                    </a>
+                                </div>
+                                <div class="col-md-3">
+                                    <a href="#">
+                                        <img src="http://placehold.it/250x250" alt="Image" style="max-width:100%;">
+                                    </a>
+                                </div>
+                                <div class="col-md-3">
+                                    <a href="#">
+                                        <img src="http://placehold.it/250x250" alt="Image" style="max-width:100%;">
+                                    </a>
+                                </div>
+                                <div class="col-md-3">
+                                    <a href="#">
+                                        <img src="http://placehold.it/250x250" alt="Image" style="max-width:100%;">
+                                    </a>
+                                </div>
+                            </div>
+                            <!--.row-->
+                        </div>
+                        <!--.item-->
+
+                        <div class="carousel-item">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <a href="#">
+                                        <img src="http://placehold.it/250x250" alt="Image" style="max-width:100%;">
+                                    </a>
+                                </div>
+                                <div class="col-md-3">
+                                    <a href="#">
+                                        <img src="http://placehold.it/250x250" alt="Image" style="max-width:100%;">
+                                    </a>
+                                </div>
+                                <div class="col-md-3">
+                                    <a href="#">
+                                        <img src="http://placehold.it/250x250" alt="Image" style="max-width:100%;">
+                                    </a>
+                                </div>
+                                <div class="col-md-3">
+                                    <a href="#">
+                                        <img src="http://placehold.it/250x250" alt="Image" style="max-width:100%;">
+                                    </a>
+                                </div>
+                            </div>
+                            <!--.row-->
+                        </div>
+                        <!--.item-->
+
+                    </div>
+                    <!--.carousel-inner-->
+                </div>
+                <!--.Carousel-->
+
+            </div>
+        </div>
+    </div>
+
+    <!-- <div>{{ coords }}</div> -->
 
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js"
