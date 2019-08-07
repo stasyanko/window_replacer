@@ -14,7 +14,9 @@ imageObj1.onload = function () {
     imageObj2.onload = function () {
         for (let i = 0; i < coords.length; i++) {
             const coodArr = coords[i];
+            // ctx.globalCompositeOperation = "darken";
             ctx.drawImage(imageObj3, coodArr[1], coodArr[0], coodArr[3] - coodArr[1], coodArr[2] - coodArr[0]);
+            // ctx.globalCompositeOperation = "xor";
             ctx.drawImage(imageObj2, coodArr[1], coodArr[0], coodArr[3] - coodArr[1], coodArr[2] - coodArr[0]);
         }
     }
