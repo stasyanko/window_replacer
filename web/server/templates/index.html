@@ -20,7 +20,15 @@
 </head>
 
 <body>
-    <input id="img_src" type="hidden" value={{ url_for('static', filename='images/9.jpg') }}>
+
+    <form method="POST" action="/" enctype="multipart/form-data">
+        <input type=file name=file>
+        <input type=submit value=Upload>
+    </form>
+
+    <br>
+
+    <input id="img_src" type="hidden" value={{ url_for('static', filename='images/' + filename) }}>
     <input id="window_src" type="hidden" value={{ url_for('static', filename='images/window1.png') }}>
     <input id="glass_src" type="hidden" value={{ url_for('static', filename='images/glass.png') }}>
 
