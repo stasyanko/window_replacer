@@ -5,6 +5,19 @@ $(document).ready(function () {
 
     var coords = JSON.parse($('#coords').val());
 
+    function updateObjData(node) {
+        var lines = [
+            'x: ' + node.x(),
+            'y: ' + node.y(),
+            'rotation: ' + node.rotation(),
+            'width: ' + node.width(),
+            'height: ' + node.height(),
+            'scaleX: ' + node.scaleX(),
+            'scaleY: ' + node.scaleY()
+        ];
+        console.log(lines.join('\n'), node);
+    }
+
     function drawAllImages(windowSrc) {
         Konva.Image.fromURL($('#img_src').val(), function (houseObj) {
             var ctxWidth = houseObj.attrs.image.width;
@@ -15,9 +28,10 @@ $(document).ready(function () {
                 width: ctxWidth,
                 height: ctxHeight
             });
+
             stage.on('click tap', function (e) {
                 // if click on empty area - remove all transformers
-                if (e.target === stage) {
+                if (e.target['attrs']['image']['currentSrc'] === $('#img_src').val()) {
                     stage.find('Transformer').destroy();
                     layer.draw();
                     return;
@@ -31,6 +45,16 @@ $(document).ready(function () {
                 layer.add(tr);
                 tr.attachTo(e.target);
                 layer.draw();
+                console.log(e.target['attrs']['image']['currentSrc'], 111);
+            });
+
+            $('a.window-btn').on('click', function (e) {
+                e.preventDefault();
+                //TODO: перебрать все объекты image кроме stage
+                //TODO: и заменить src
+                console.log(stage);
+                var windowSrc = $(this).attr("data-id");
+                drawAllImages("/static/images/windows/" + windowSrc);
             });
 
             var layer = new Konva.Layer();
@@ -58,6 +82,10 @@ $(document).ready(function () {
                         windowObj.setAttrs(opts);
                         layer.add(windowObj);
                         layer.batchDraw();
+
+                        windowObj.on('transform', function () {
+                            updateObjData(windowObj);
+                        });
                     });
                 });
             }
@@ -66,10 +94,4 @@ $(document).ready(function () {
 
     var windowSrc = $('#window_src').val();
     drawAllImages(windowSrc);
-
-    $('a.window-btn').on('click', function (e) {
-        e.preventDefault();
-        var windowSrc = $(this).attr("data-id");
-        drawAllImages("/static/images/windows/" + windowSrc);
-    });
 });
