@@ -1,0 +1,2 @@
+BASE_URL=http://127.0.0.1:5000
+UPLOAD_FOLDER=/home/stas/ml/window_replacer_new/web/server/static/images

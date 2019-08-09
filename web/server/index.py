@@ -1,17 +1,25 @@
 from flask import Flask, flash, render_template, request, redirect, url_for
 from object_detector import get_window_coords
 from werkzeug.utils import secure_filename
+from os.path import join, dirname
+from dotenv import load_dotenv
 
 import os
 import json
 import random
 import string
 
-UPLOAD_FOLDER = '/home/stas/ml/window_replacer_new/web/server/static/images'
+dotenv_path = join(dirname(__file__), '.env')
+load_dotenv(dotenv_path)
+
+BASE_URL = os.environ.get("BASE_URL")
+UPLOAD_FOLDER = os.environ.get("UPLOAD_FOLDER")
 ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
+
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config['BASE_URL'] = os.environ.get("BASE_URL")
 
 
 @app.route('/', methods=['GET', 'POST'])
