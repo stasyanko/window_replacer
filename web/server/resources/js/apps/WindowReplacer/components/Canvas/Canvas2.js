@@ -1,74 +1,126 @@
-import React, { Component } from "react";
+import React from "react";
 import { render } from "react-dom";
 import { Stage, Layer, Image, Transformer } from "react-konva";
+import useImage from 'use-image';
 
-export default class Canvas2 extends Component {
-    constructor(props) {
-        super(props);
+const Rectangle = ({ shapeProps, isSelected, onSelect, onChange }) => {
+    const shapeRef = React.useRef();
+    const trRef = React.useRef();
+    const [image] = useImage(shapeProps.url);
 
-        this.state = {
-            image: null
-        };
+
+    React.useEffect(() => {
+        if (isSelected) {
+            // we need to attach transformer manually
+            trRef.current.setNode(shapeRef.current);
+            trRef.current.getLayer().batchDraw();
+        }
+    }, [isSelected]);
+
+    return (
+        <React.Fragment>
+            <Image
+                image={image}
+                onClick={onSelect}
+                ref={shapeRef}
+                {...shapeProps}
+                draggable
+                onDragEnd={e => {
+                    onChange({
+                        ...shapeProps,
+                        x: e.target.x(),
+                        y: e.target.y()
+                    });
+                }}
+                onTransformEnd={e => {
+                    // transformer is changing scale
+                    const node = shapeRef.current;
+                    const scaleX = node.scaleX();
+                    const scaleY = node.scaleY();
+
+                    // we will reset it back
+                    node.scaleX(1);
+                    node.scaleY(1);
+                    onChange({
+                        ...shapeProps,
+                        x: node.x(),
+                        y: node.y(),
+                        width: node.width() * scaleX,
+                        height: node.height() * scaleY
+                    });
+                }}
+            />
+            {isSelected && <Transformer ref={trRef} />}
+        </React.Fragment>
+    );
+};
+
+const initialRectangles = [
+    {
+        x: 10,
+        y: 10,
+        width: 100,
+        height: 100,
+        fill: "red",
+        id: "rect1"
+    },
+    {
+        x: 150,
+        y: 150,
+        width: 100,
+        height: 100,
+        fill: "green",
+        id: "rect2"
     }
+];
 
-    componentDidMount() {
-        const image = new window.Image();
-        image.onload = () => {
-            this.setState({
-                image: image
-            }, () => {
-                this.transformer.attachTo(this.image);
-            });
-        };
-        image.src = "https://konvajs.github.io/assets/yoda.jpg";
+const Canvas2 = () => {
+    const [rectangles, setRectangles] = React.useState(initialRectangles);
+    const [selectedId, selectShape] = React.useState(null);
+    const [windowUrl, setWindowUrl] = React.useState('https://konvajs.org/assets/lion.png');
 
+
+    React.useEffect(() => {
         setTimeout(() => {
-            const image2 = new window.Image();
-            image2.onload = () => {
-                this.setState({
-                    image: image2
-                }, () => {
-                    this.transformer.attachTo(this.image);
-                });
-            };
-            image2.src = "http://127.0.0.1:5000/static/images/windows/window_PNG17652.png";
+            setWindowUrl('http://127.0.0.1:5000/static/images/windows/window_PNG17641.png');
         }, 3000);
-    }
+    });
 
-    handleTransform() {
-        const props = {
-            x: this.image.x(),
-            y: this.image.y(),
-            rotatio: this.image.rotation(),
-            width: this.image.width(),
-            height: this.image.height(),
-            scaleX: this.image.scaleX(),
-            scaleY: this.image.scaleY()
-        };
-        console.log(props);
-    };
-    render() {
-        return (
-            <Stage width={window.innerWidth} height={window.innerHeight}>
-                <Layer>
-                    <Image
-                        image={this.state.image}
-                        ref={node => {
-                            this.image = node;
-                        }}
-                        draggable
-                        onTransform={this.handleTransform}
-                        onDragMove={this.handleTransform}
-                        width={300}
-                        height={300}
-                    />
-                    <Transformer
-                        ref={node => {
-                            this.transformer = node;
-                        }}
-                    />
-                </Layer>
-            </Stage>
-        );
-    }
-}
+    return (
+        <Stage
+            width={window.innerWidth}
+            height={window.innerHeight}
+            onMouseDown={e => {
+                // deselect when clicked on empty area
+                const clickedOnEmpty = e.target === e.target.getStage();
+                if (clickedOnEmpty) {
+                    selectShape(null);
+                }
+            }}
+        >
+            <Layer>
+                {rectangles.map((rect, i) => {
+                    rect['url'] = windowUrl;
+
+                    return (
+                        <Rectangle
+                            key={i}
+                            shapeProps={rect}
+                            isSelected={rect.id === selectedId}
+                            onSelect={() => {
+                                selectShape(rect.id);
+                            }}
+                            onChange={newAttrs => {
+                                const rects = rectangles.slice();
+                                rects[i] = newAttrs;
+                                setRectangles(rects);
+                            }}
+                        />
+                    );
+                })}
+            </Layer>
+        </Stage>
+    );
+};
+
+export default Canvas2;
