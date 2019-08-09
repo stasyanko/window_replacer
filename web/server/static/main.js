@@ -18,7 +18,12 @@ $(document).ready(function () {
         console.log(lines.join('\n'), node);
     }
 
-    function drawAllImages(windowSrc) {
+    var windowSrcObj = {
+        old: null,
+        new: $('base').attr('href') + $('#window_src').val(),
+    };
+
+    function drawAllImages() {
         Konva.Image.fromURL($('#img_src').val(), function (houseObj) {
             var ctxWidth = houseObj.attrs.image.width;
             var ctxHeight = houseObj.attrs.image.height;
@@ -30,8 +35,10 @@ $(document).ready(function () {
             });
 
             stage.on('click tap', function (e) {
+                // console.log(windowSrc, e.target['attrs']['image']['currentSrc']);
+
                 // if click on empty area - remove all transformers
-                if (e.target['attrs']['image']['currentSrc'] === $('#img_src').val()) {
+                if (e.target['attrs']['image']['currentSrc'] === windowSrcObj['new']) {
                     stage.find('Transformer').destroy();
                     layer.draw();
                     return;
@@ -45,16 +52,23 @@ $(document).ready(function () {
                 layer.add(tr);
                 tr.attachTo(e.target);
                 layer.draw();
-                console.log(e.target['attrs']['image']['currentSrc'], 111);
             });
 
             $('a.window-btn').on('click', function (e) {
                 e.preventDefault();
                 //TODO: перебрать все объекты image кроме stage
                 //TODO: и заменить src
-                console.log(stage);
-                var windowSrc = $(this).attr("data-id");
-                drawAllImages("/static/images/windows/" + windowSrc);
+                // windowSrcObj['old'] = windowSrcObj['new'];
+                let c = $('base').attr('href') + "/static/images/windows/" + $(this).attr("data-id");
+                // drawAllImages();
+
+                var a = layer.getChildren()[3];
+                let b = a.clone();
+                b['image']['currentSrc'] = c;
+
+                layer.add(b);
+                layer.batchDraw();
+                console.log(a['image']['currentSrc'], b['image']['currentSrc']);
             });
 
             var layer = new Konva.Layer();
@@ -78,7 +92,7 @@ $(document).ready(function () {
                     layer.add(glassObj);
                     layer.batchDraw();
 
-                    Konva.Image.fromURL(windowSrc, function (windowObj) {
+                    Konva.Image.fromURL(windowSrcObj['new'], function (windowObj) {
                         windowObj.setAttrs(opts);
                         layer.add(windowObj);
                         layer.batchDraw();
@@ -92,6 +106,5 @@ $(document).ready(function () {
         });
     }
 
-    var windowSrc = $('#window_src').val();
-    drawAllImages(windowSrc);
+    drawAllImages();
 });

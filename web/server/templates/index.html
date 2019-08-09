@@ -114,7 +114,14 @@
         </div>
     </div>
 
-    <!-- <div>{{ coords }}</div> -->
+    <div id="react-root-window-replacer"></div>
+
+    <script>
+        window._shared_data = {
+            house_img: "{{ url_for('static', filename='images/' + filename) }}",
+            window_img: "{{ url_for('static', filename='images/windows/window_PNG17681.png') }}",
+        };
+    </script>
 
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js"
@@ -130,7 +137,7 @@
 
     <script src="{{ url_for('static', filename='main.js') }}"></script>
 
-    <!-- <script src="{{ url_for('static', filename='main.js') }}"></script> -->
+    <script src="{{ url_for('static', filename='build/app.js') }}"></script>
 </body>
 
 </html>
