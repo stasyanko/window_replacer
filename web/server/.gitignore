@@ -1,2 +1,3 @@
 /node_modules
 /static/build
+/static/mix-manifest.json
