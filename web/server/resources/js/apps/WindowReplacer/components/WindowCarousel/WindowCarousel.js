@@ -11,28 +11,26 @@ const windows = window._shared_data.windows.map((windowTitle, i) => {
         </a>
     </div>
 });
-const numOfCols = Math.round(windows.length / 4);
+const noRows = Math.round(windows.length / 4);
 
 const WindowCarousel = () => {
     const [readyWindows, setWindows] = React.useState(windows);
 
-    //     const readyWindows = windows.map((windowUrl, i) => {
-    //         return (
-    //             <div className="col-md-3">
-    //                 <a href="#" className="window-btn" id="{{window}}" dataId="{{window}}">
-    //                     <img src="{{ url_for('static', filename='images/windows/' + window) }}"
-    //                         alt="Image" style="max-width:100%;">
-    //             </a>
-    //         </div>
-    //                 {% if loop.index % 4 == 0 %}
-    //     </div>
-    // </div >
+    const readyWindowsWithRows = Array.from(Array(noRows)).map((n, i) => {
+        let cssClass = "carousel-item";
+        if (i === 0) {
+            cssClass += " active";
+        }
 
-    //     <div className="carousel-item">
-    //         <div className="row">
-    //             {% endif %}
-    //             );
-    //         });
+        return <div className={cssClass} key={i}>
+            <div className="row">
+                {readyWindows.slice(i * 4, (i + 1) * 4)}
+            </div>
+        </div>;
+    });
+    const indicators = Array.from(Array(noRows)).map((n, i) => {
+        return <li data-target="#windowsCarousel" data-slide-to={i} className="active"></li>;
+    });
 
     return (
         <React.Fragment>
@@ -44,18 +42,11 @@ const WindowCarousel = () => {
             <div className="window-carousel">
                 <div id="windowsCarousel" className="carousel slide" data-ride="carousel">
                     <ol className="carousel-indicators">
-                        {/* {% for index in slider_btn_range %} */}
-                        <li data-target="#windowsCarousel" data-slide-to="" className="active"></li>
-                        {/* {% endfor %} */}
+                        {indicators}
                     </ol>
 
                     <div className=" carousel-inner">
-                        <div className="carousel-item active">
-                            <div className="row">
-                                {readyWindows}
-                            </div>
-
-                        </div>
+                        {readyWindowsWithRows}
                     </div>
                 </div>
             </div>

@@ -1,16 +1,13 @@
-import React, { Component } from 'react';
-import Konva from 'konva';
-import { Stage, Layer, Star, Text, Image } from 'react-konva';
+import React from "react";
+import { render } from "react-dom";
+import { Stage, Layer, Image, Transformer } from "react-konva";
 import useImage from 'use-image';
 
-const LionImage = () => {
-    const [image] = useImage('https://konvajs.org/assets/lion.png');
-    return <Image image={image} />;
-};
-
-class URLImage extends Component {
+const Rectangle = ({ shapeProps, isSelected, onSelect, onChange }) => {
     const shapeRef = React.useRef();
     const trRef = React.useRef();
+    const [image] = useImage(shapeProps.url);
+
 
     React.useEffect(() => {
         if (isSelected) {
@@ -20,122 +17,113 @@ class URLImage extends Component {
         }
     }, [isSelected]);
 
-constructor(props) {
-    super(props);
-
-    this.state = {
-        image: null
-    };
-}
-
-componentDidMount() {
-    this.loadImage();
-}
-
-componentDidUpdate(oldProps) {
-    if (oldProps.src !== this.props.src) {
-        this.loadImage();
-    }
-}
-
-componentWillUnmount() {
-    this.image.removeEventListener('load', this.handleLoad);
-}
-
-loadImage() {
-    // save to "this" to remove "load" handler on unmount
-    this.image = new window.Image();
-    this.image.src = this.props.src;
-    this.image.addEventListener('load', () => {
-        this.handleLoad();
-    });
-}
-
-handleLoad() {
-    // after setState react-konva will update canvas and redraw the layer
-    // because "image" property is changed
-    this.setState({
-        image: this.image
-    });
-    // if you keep same image object during source updates
-    // you will have to update layer manually:
-    // this.imageNode.getLayer().batchDraw();
-};
-
-render() {
-    console.log(123, this.state.image);
     return (
         <React.Fragment>
             <Image
-                x={this.props.x}
-                y={this.props.y}
-                height={this.props.h || undefined}
-                width={this.props.w || undefined}
-                image={this.state.image}
-                ref={node => {
-                    this.imageNode = node;
+                image={image}
+                onClick={onSelect}
+                ref={shapeRef}
+                {...shapeProps}
+                onDragEnd={e => {
+                    onChange({
+                        ...shapeProps,
+                        x: e.target.x(),
+                        y: e.target.y()
+                    });
                 }}
-                draggable={this.props.draggable}
-                onClick={this.props.onClick}
+                onTransformEnd={e => {
+                    // transformer is changing scale
+                    const node = shapeRef.current;
+                    const scaleX = node.scaleX();
+                    const scaleY = node.scaleY();
+
+                    // we will reset it back
+                    node.scaleX(1);
+                    node.scaleY(1);
+                    onChange({
+                        ...shapeProps,
+                        x: node.x(),
+                        y: node.y(),
+                        width: node.width() * scaleX,
+                        height: node.height() * scaleY
+                    });
+                }}
             />
             {isSelected && <Transformer ref={trRef} />}
         </React.Fragment>
     );
-}
-}
+};
 
-export default class Canvas extends Component {
-    constructor(props) {
-        super(props);
+const initialRectangles = window._shared_data.coords.map((coodArr, i) => {
+    return {
+        x: coodArr[1],
+        y: coodArr[0],
+        width: coodArr[3] - coodArr[1],
+        height: coodArr[2] - coodArr[0],
+        fill: "red",
+        id: "rect" + i + 1,
+        draggable: true
+    };
+});
 
-        this.state = {
-            window_img: window['_shared_data']['window_img'],
-            selected_id: null,
-            select_shape: null,
-        };
-    }
 
-    componentDidMount() {
+const Canvas = () => {
+    const [rectangles, setRectangles] = React.useState(initialRectangles);
+    const [selectedId, selectShape] = React.useState(null);
+    const [windowUrl, setWindowUrl] = React.useState('https://konvajs.org/assets/lion.png');
+
+
+    React.useEffect(() => {
         setTimeout(() => {
-            this.setState({
-                window_img: '/static/images/windows/window_PNG17639.png'
-            });
+            setWindowUrl('http://127.0.0.1:5000/static/images/windows/window_PNG17641.png');
         }, 3000);
-    }
+    });
 
-    render() {
-        return (
-            <Stage
-                width={window.innerWidth}
-                height={window.innerHeight}
-                onMouseDown={e => {
-                    // deselect when clicked on empty area
-                    const clickedOnEmpty = e.target === e.target.getStage();
-                    if (clickedOnEmpty) {
-                        selectShape(null);
-                    }
-                }}
-            >
-                <Layer>
-                    <URLImage
-                        src={window['_shared_data']['house_img']}
-                        x={0}
-                        y={0}
-                        onClick={() => { }}
-                    />
-                    <URLImage
-                        src={this.state.window_img}
-                        x={110}
-                        y={110}
-                        h={30}
-                        w={30}
-                        draggable={true}
-                        onClick={() => {
-                            alert(123213);
-                        }}
-                    />
-                </Layer>
-            </Stage>
-        );
-    }
-}
+    return (
+        <Stage
+            width={window.innerWidth}
+            height={window.innerHeight}
+            onMouseDown={e => {
+                // deselect when clicked on empty area
+                const clickedOnEmpty = e.target === e.target.getStage();
+                if (clickedOnEmpty) {
+                    selectShape(null);
+                }
+            }}
+        >
+            <Layer>
+                <Rectangle
+                    shapeProps={{
+                        x: 0,
+                        y: 0,
+                        id: "1",
+                        url: window._shared_data.house_img
+                    }}
+                />
+            </Layer>
+            <Layer>
+                {rectangles.map((rect, i) => {
+                    rect['url'] = windowUrl;
+
+                    return (
+                        <Rectangle
+                            key={i}
+                            shapeProps={rect}
+                            isSelected={rect.id === selectedId}
+                            onSelect={() => {
+                                selectShape(rect.id);
+                            }}
+                            onChange={newAttrs => {
+                                const rects = rectangles.slice();
+                                rects[i] = newAttrs;
+                                setRectangles(rects);
+                            }}
+                        />
+                    );
+                })}
+            </Layer>
+        </Stage>
+    );
+};
+
+export default Canvas;

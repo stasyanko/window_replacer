@@ -59,65 +59,19 @@
             </div>
         </div>
         <br>
-        <div class="row">
-            <div class="col-md-8">
-                <div id="ctx-container"></div>
-            </div>
-            <div class="col-md-4">
-                <p>Press no a window to rotate it or change its scale.</p>
-                <button type="button" class="btn btn-primary">New window</button>
 
-                <br><br>
+        <div class="row" id="react-root-window-replacer">
 
-                <div class="window-carousel">
-                    <div id="windowsCarousel" class="carousel slide" data-ride="carousel">
-                        <ol class="carousel-indicators">
-                            {% for index in slider_btn_range %}
-                            <li data-target="#windowsCarousel" data-slide-to="{{loop.index - 1}}" class="active"></li>
-                            {% endfor %}
-                        </ol>
-
-                        <!-- Carousel items -->
-                        <div class=" carousel-inner">
-
-                            <div class="carousel-item active">
-                                <div class="row">
-                                    {% for window in windows %}
-                                    <div class="col-md-3">
-                                        <a href="#" class="window-btn" id="{{window}}" data-id="{{window}}">
-                                            <img src="{{ url_for('static', filename='images/windows/' + window) }}"
-                                                alt="Image" style="max-width:100%;">
-                                        </a>
-                                    </div>
-                                    {% if loop.index % 4 == 0 %}
-                                </div>
-                                <!--.row-->
-                            </div>
-                            <!--.item-->
-
-                            <div class="carousel-item">
-                                <div class="row">
-                                    {% endif %}
-                                    {% endfor %}
-
-                                </div>
-                                <!--.row-->
-                            </div>
-                            <!--.item-->
-
-                        </div>
-                        <!--.carousel-inner-->
-                    </div>
-                    <!--.Carousel-->
-                </div>
-            </div>
         </div>
+
+
     </div>
 
-    <div id="react-root-window-replacer"></div>
+
 
     <script>
         window._shared_data = {
+            windows: JSON.parse('{{ windows | safe }}'),
             coords: JSON.parse("{{ coords }}"),
             house_img: "{{ url_for('static', filename='images/' + filename) }}",
             window_img: "{{ url_for('static', filename='images/windows/window_PNG17681.png') }}",
