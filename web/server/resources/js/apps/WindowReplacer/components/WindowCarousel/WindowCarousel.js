@@ -2,18 +2,21 @@ import React from "react";
 import { render } from "react-dom";
 import useImage from 'use-image';
 
-const windows = window._shared_data.windows.map((windowTitle, i) => {
-    const imgSrc = "static/images/windows/" + windowTitle;
-    return <div className="col-md-3">
-        <a href="#" className="window-btn" key={windowTitle}>
-            <img src={imgSrc}
-                alt="Image" style={{ maxWidth: '100%' }} />
-        </a>
-    </div>
-});
-const noRows = Math.round(windows.length / 4);
+const WindowCarousel = ({ setCurWindowUrl }) => {
 
-const WindowCarousel = () => {
+    const windows = window._shared_data.windows.map((windowTitle, i) => {
+        const imgSrc = "static/images/windows/" + windowTitle;
+        return <div className="col-md-3">
+            <a href="#" className="window-btn" key={windowTitle} onClick={(e) => {
+                e.preventDefault();
+                setCurWindowUrl(windowTitle);
+            }}>
+                <img src={imgSrc}
+                    alt="Image" style={{ maxWidth: '100%' }} />
+            </a>
+        </div>
+    });
+    const noRows = Math.round(windows.length / 4);
     const [readyWindows, setWindows] = React.useState(windows);
 
     const readyWindowsWithRows = Array.from(Array(noRows)).map((n, i) => {

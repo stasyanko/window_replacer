@@ -67,17 +67,9 @@ const initialRectangles = window._shared_data.coords.map((coodArr, i) => {
 });
 
 
-const Canvas = () => {
+const Canvas = ({ windowUrl }) => {
     const [rectangles, setRectangles] = React.useState(initialRectangles);
     const [selectedId, selectShape] = React.useState(null);
-    const [windowUrl, setWindowUrl] = React.useState('https://konvajs.org/assets/lion.png');
-
-
-    React.useEffect(() => {
-        setTimeout(() => {
-            setWindowUrl('http://127.0.0.1:5000/static/images/windows/window_PNG17641.png');
-        }, 3000);
-    });
 
     return (
         <Stage
