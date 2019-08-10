@@ -26,7 +26,7 @@ app.config['BASE_URL'] = os.environ.get("BASE_URL")
 def upload_file():
     coords = ""
     filename = ""
-    windows = os.listdir(UPLOAD_FOLDER + "/windows")
+    windows = json.dumps(os.listdir(UPLOAD_FOLDER + "/windows"))
     slider_btn_range = range(0, round(len(windows) / 4))
 
     if request.method == 'POST':

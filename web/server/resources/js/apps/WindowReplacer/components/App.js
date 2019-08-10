@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 
-// import Canvas from './Canvas/Canvas';
-import Canvas2 from './Canvas/Canvas2';
+import Canvas from './Canvas/Canvas';
+import WindowCarousel from './WindowCarousel/WindowCarousel';
 
 export default class App extends Component {
     constructor(props) {
@@ -12,7 +12,12 @@ export default class App extends Component {
     render() {
         return (
             <React.Fragment>
-                <Canvas2 />
+                <div className="col-md-8">
+                    <Canvas />
+                </div>
+                <div className="col-md-4">
+                    <WindowCarousel />
+                </div>
             </React.Fragment>
         );
     }
