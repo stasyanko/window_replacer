@@ -24,7 +24,6 @@ const Rectangle = ({ shapeProps, isSelected, onSelect, onChange }) => {
                 onClick={onSelect}
                 ref={shapeRef}
                 {...shapeProps}
-                draggable
                 onDragEnd={e => {
                     onChange({
                         ...shapeProps,
@@ -55,24 +54,18 @@ const Rectangle = ({ shapeProps, isSelected, onSelect, onChange }) => {
     );
 };
 
-const initialRectangles = [
-    {
-        x: 10,
-        y: 10,
-        width: 100,
-        height: 100,
+const initialRectangles = window._shared_data.coords.map((coodArr, i) => {
+    return {
+        x: coodArr[1],
+        y: coodArr[0],
+        width: coodArr[3] - coodArr[1],
+        height: coodArr[2] - coodArr[0],
         fill: "red",
-        id: "rect1"
-    },
-    {
-        x: 150,
-        y: 150,
-        width: 100,
-        height: 100,
-        fill: "green",
-        id: "rect2"
-    }
-];
+        id: "rect" + i + 1,
+        draggable: true
+    };
+});
+
 
 const Canvas2 = () => {
     const [rectangles, setRectangles] = React.useState(initialRectangles);
@@ -98,6 +91,16 @@ const Canvas2 = () => {
                 }
             }}
         >
+            <Layer>
+                <Rectangle
+                    shapeProps={{
+                        x: 0,
+                        y: 0,
+                        id: "1",
+                        url: window._shared_data.house_img
+                    }}
+                />
+            </Layer>
             <Layer>
                 {rectangles.map((rect, i) => {
                     rect['url'] = windowUrl;

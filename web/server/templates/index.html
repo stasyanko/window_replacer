@@ -118,6 +118,7 @@
 
     <script>
         window._shared_data = {
+            coords: JSON.parse("{{ coords }}"),
             house_img: "{{ url_for('static', filename='images/' + filename) }}",
             window_img: "{{ url_for('static', filename='images/windows/window_PNG17681.png') }}",
         };
