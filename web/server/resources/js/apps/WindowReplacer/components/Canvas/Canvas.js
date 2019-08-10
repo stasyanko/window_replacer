@@ -2,12 +2,12 @@ import React from "react";
 import { render } from "react-dom";
 import { Stage, Layer, Image, Transformer } from "react-konva";
 import useImage from 'use-image';
+import shape from 'konva';
 
 const Rectangle = ({ shapeProps, isSelected, onSelect, onChange }) => {
     const shapeRef = React.useRef();
     const trRef = React.useRef();
     const [image] = useImage(shapeProps.url);
-
 
     React.useEffect(() => {
         if (isSelected) {
@@ -23,6 +23,7 @@ const Rectangle = ({ shapeProps, isSelected, onSelect, onChange }) => {
                 image={image}
                 onClick={onSelect}
                 ref={shapeRef}
+                filters={[Konva.Filters.Blur]}
                 {...shapeProps}
                 onDragEnd={e => {
                     onChange({
@@ -60,16 +61,33 @@ const initialRectangles = window._shared_data.coords.map((coodArr, i) => {
         y: coodArr[0],
         width: coodArr[3] - coodArr[1],
         height: coodArr[2] - coodArr[0],
-        fill: "red",
         id: "rect" + i + 1,
         draggable: true
     };
 });
 
 
-const Canvas = ({ windowUrl }) => {
-    const [rectangles, setRectangles] = React.useState(initialRectangles);
+const Canvas = ({ windowUrl, rectangles, setRectangles }) => {
+    // const [rectangles, setRectangles] = React.useState(initialRectangles);
     const [selectedId, selectShape] = React.useState(null);
+    const [fillImage, setFillImage] = React.useState(null);
+
+    React.useEffect(() => {
+        // const oldRectangles = rectangles.slice();
+        // let newRect = Object.assign({}, oldRectangles[0]);
+        // newRect['x'] = 0;
+        // newRect['y'] = 0;
+        // newRect['id'] = newRect['id'] + 1;
+        // oldRectangles.push(newRect);
+        // setRectangles(oldRectangles);
+
+        const fillImageObj = new window.Image();
+        fillImageObj.onload = () => {
+            setFillImage(fillImageObj);
+        }
+        fillImageObj.src = $('#glass_src').val();
+    }, []);
+
 
     return (
         <Stage
@@ -96,6 +114,7 @@ const Canvas = ({ windowUrl }) => {
             <Layer>
                 {rectangles.map((rect, i) => {
                     rect['url'] = windowUrl;
+                    rect['fillPatternImage'] = fillImage;
 
                     return (
                         <Rectangle

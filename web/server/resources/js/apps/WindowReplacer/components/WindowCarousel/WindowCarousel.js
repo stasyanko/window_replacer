@@ -1,12 +1,9 @@
 import React from "react";
-import { render } from "react-dom";
-import useImage from 'use-image';
 
 const WindowCarousel = ({ setCurWindowUrl }) => {
-
     const windows = window._shared_data.windows.map((windowTitle, i) => {
         const imgSrc = "static/images/windows/" + windowTitle;
-        return <div className="col-md-3">
+        return <div className="col-md-3" key={i}>
             <a href="#" className="window-btn" key={windowTitle} onClick={(e) => {
                 e.preventDefault();
                 setCurWindowUrl(windowTitle);
@@ -32,16 +29,11 @@ const WindowCarousel = ({ setCurWindowUrl }) => {
         </div>;
     });
     const indicators = Array.from(Array(noRows)).map((n, i) => {
-        return <li data-target="#windowsCarousel" data-slide-to={i} className="active"></li>;
+        return <li key={i} data-target="#windowsCarousel" data-slide-to={i} className="active"></li>;
     });
 
     return (
         <React.Fragment>
-            <p>Press no a window to rotate it or change its scale.</p>
-            <button type="button" className="btn btn-primary">New window</button>
-
-            <br /><br />
-
             <div className="window-carousel">
                 <div id="windowsCarousel" className="carousel slide" data-ride="carousel">
                     <ol className="carousel-indicators">
