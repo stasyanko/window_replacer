@@ -1,0 +1,26 @@
+<annotation>
+	<folder>raw_rect_images</folder>
+	<filename>16.png</filename>
+	<path>/home/stas/ml/room_sketch/raw_rect_images/16.png</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>800</width>
+		<height>600</height>
+		<depth>1</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>rect</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>18</xmin>
+			<ymin>44</ymin>
+			<xmax>757</xmax>
+			<ymax>564</ymax>
+		</bndbox>
+	</object>
+</annotation>
