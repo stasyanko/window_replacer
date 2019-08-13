@@ -1,7 +1,7 @@
 <annotation>
-	<folder>raw_rect_images</folder>
+	<folder>train</folder>
 	<filename>46.png</filename>
-	<path>/home/stas/ml/room_sketch/raw_rect_images/46.png</path>
+	<path>/home/stas/ml/window_replacer_new/plan_3d/raw_rect_images/train/46.png</path>
 	<source>
 		<database>Unknown</database>
 	</source>
@@ -17,9 +17,9 @@
 		<truncated>0</truncated>
 		<difficult>0</difficult>
 		<bndbox>
-			<xmin>28</xmin>
+			<xmin>29</xmin>
 			<ymin>16</ymin>
-			<xmax>753</xmax>
+			<xmax>754</xmax>
 			<ymax>558</ymax>
 		</bndbox>
 	</object>
